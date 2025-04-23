@@ -18,11 +18,15 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.dependency.check)
-    id("maven-publish")
 }
 
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        mavenContent { snapshotsOnly() }
+    }
 }
 
 dependencies {
@@ -46,33 +50,8 @@ dependencies {
     }
 }
 
-signing {
-    setRequired(project.hasProperty("signing.keyId"))
-    sign {
-        publishing.publications
-    }
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("mavenJava") {
-                groupId = "com.github.german-first-iteration"
-                artifactId = "eudi-lib-jvm-siop-openid4vp-kt"
-                version = "0.0.4"
-
-                from(components["java"])
-            }
-        }
-    }
-}
-
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
-    }
     sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
-    targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
 }
 
 kotlin {
