@@ -146,7 +146,7 @@ private fun ensureSameClientId(
     signedJwt: SignedJWT,
 ): String {
     val jarClientId = signedJwt.jwtClaimsSet.getStringClaim("client_id")
-    ensure(expectedClientId == jarClientId) {
+    ensure(expectedClientId.equals(jarClientId, ignoreCase = true)) {
         invalidJwt("ClientId mismatch. JAR request $expectedClientId, jwt $jarClientId")
     }
     return expectedClientId
