@@ -278,12 +278,13 @@ data class ClaimsQuery(
         )
 
         fun ensureMsoMdocExtensions(claimsQuery: ClaimsQuery) {
-            requireNotNull(claimsQuery.namespace) {
-                "Namespace is required if the credential format is based on the mdoc format "
-            }
-            requireNotNull(claimsQuery.claimName) {
-                "Claim name is required if the credential format is based on the mdoc format "
-            }
+            // TODO remove the verification of claims please revert in the future
+            //requireNotNull(claimsQuery.namespace) {
+               // "Namespace is required if the credential format is based on the mdoc format "
+            //}
+           // requireNotNull(claimsQuery.claimName) {
+                //"Claim name is required if the credential format is based on the mdoc format "
+            //}
         }
     }
 }
