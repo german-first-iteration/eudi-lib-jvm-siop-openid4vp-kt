@@ -45,7 +45,7 @@ data class DCQL(
      */
     @SerialName(OpenId4VPSpec.DCQL_CREDENTIAL_SETS) val credentialSets: CredentialSets? = null,
 
-) {
+    ) {
     init {
         val uniqueIds = credentials.ensureValid()
         credentialSets?.apply { ensureValid(uniqueIds) }
@@ -96,7 +96,7 @@ value class QueryId(val value: String) {
  */
 @Serializable
 data class CredentialQuery(
-    @SerialName(OpenId4VPSpec.DCQL_ID) @Required val id: QueryId,
+    @SerialName(OpenId4VPSpec.DCQL_ID) val id: QueryId = QueryId("default"),
     @SerialName(OpenId4VPSpec.DCQL_FORMAT) @Required val format: Format,
     /**
      * An object defining additional properties requested by the Verifier that apply
@@ -121,7 +121,7 @@ data class CredentialQuery(
      */
     @SerialName(OpenId4VPSpec.DCQL_CLAIM_SETS) val claimSets: List<ClaimSet>? = null,
 
-) {
+    ) {
 
     init {
         if (claims != null) {
@@ -190,7 +190,8 @@ data class CredentialQuery(
 
 val CredentialQuery.metaMsoMdoc: DCQLMetaMsoMdocExtensions? get() = meta.metaAs()
 val CredentialQuery.metaSdJwtVc: DCQLMetaSdJwtVcExtensions? get() = meta.metaAs()
-internal inline fun <reified T> JsonObject?.metaAs(): T? = this?.let { jsonSupport.decodeFromJsonElement(it) }
+internal inline fun <reified T> JsonObject?.metaAs(): T? =
+    this?.let { jsonSupport.decodeFromJsonElement(it) }
 
 @Serializable
 data class CredentialSetQuery(
@@ -251,7 +252,7 @@ data class ClaimsQuery(
 
         require(isJson xor isMdoc) {
             "Either '${OpenId4VPSpec.DCQL_PATH}', or '${OpenId4VPSpec.DCQL_MSO_MDOC_NAMESPACE}' " +
-                "and '${OpenId4VPSpec.DCQL_MSO_MDOC_CLAIM_NAME}' must be provided"
+                    "and '${OpenId4VPSpec.DCQL_MSO_MDOC_CLAIM_NAME}' must be provided"
         }
     }
 
@@ -268,7 +269,13 @@ data class ClaimsQuery(
             values: JsonArray? = null,
             namespace: MsoMdocNamespace,
             claimName: MsoMdocClaimName,
-        ): ClaimsQuery = ClaimsQuery(id = id, path = null, values = values, namespace = namespace, claimName = claimName)
+        ): ClaimsQuery = ClaimsQuery(
+            id = id,
+            path = null,
+            values = values,
+            namespace = namespace,
+            claimName = claimName
+        )
 
         fun ensureMsoMdocExtensions(claimsQuery: ClaimsQuery) {
             requireNotNull(claimsQuery.namespace) {

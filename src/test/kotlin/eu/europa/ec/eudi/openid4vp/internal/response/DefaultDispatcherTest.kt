@@ -543,6 +543,7 @@ class DefaultDispatcherTest {
                 responseMode = responseMode,
                 state = genState(),
                 transactionData = null,
+                verifierAttestations = null,
             )
         }
 
@@ -568,6 +569,7 @@ class DefaultDispatcherTest {
                 responseMode = responseMode,
                 state = genState(),
                 transactionData = null,
+                verifierAttestations = null,
             )
         }
 
@@ -596,6 +598,7 @@ class DefaultDispatcherTest {
                     ),
                 ),
                 transactionData = null,
+                verifierAttestations = null,
             )
         }
 
