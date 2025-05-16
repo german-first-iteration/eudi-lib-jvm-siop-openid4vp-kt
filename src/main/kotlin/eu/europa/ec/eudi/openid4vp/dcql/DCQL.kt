@@ -97,7 +97,7 @@ value class QueryId(val value: String) {
 @Serializable
 data class CredentialQuery(
     @SerialName(OpenId4VPSpec.DCQL_ID) val id: QueryId = QueryId("default"),
-    @SerialName(OpenId4VPSpec.DCQL_FORMAT) @Required val format: Format,
+    @SerialName(OpenId4VPSpec.DCQL_FORMAT) val format: Format,
     /**
      * An object defining additional properties requested by the Verifier that apply
      * to the metadata and validity data of the Credential.
